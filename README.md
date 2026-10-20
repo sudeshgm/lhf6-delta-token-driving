@@ -48,3 +48,11 @@ behaviour, one joint embedding.
 ---
 
 See [PLAN.md](PLAN.md).
+
+## Block 1 implementation (E-1)
+- `src/download_av2.py`: AV2 Sensor front camera at 2 Hz plus ego poses (public S3, no auth)
+- `src/tags.py`: clips (16 frames at 2 Hz) and maneuver tags from `city_SE3_egovehicle.feather`. The thresholds are stationary <0.5 m/s, turn |Δyaw|>30°, start/stop 0.5/3 m/s, lane change |Δyaw|<10° with lateral deviation >2 m from the arc, and accel/decel |Δv|>3 m/s. Everything else is cruise.
+- `src/encoders.py`, `src/extract.py`: DINOv2-B mean-pool features and DeltaTok (DINOv3-B) delta tokens
+- `src/evaluate.py`: LOO Recall@k, controls and ridge probes
+- `src/test_pipeline.py`: the 20-clip unit test
+- Results: `results/exp-1_block1_feasibility.md`
