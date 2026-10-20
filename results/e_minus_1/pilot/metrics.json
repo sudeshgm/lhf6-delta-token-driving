@@ -1,0 +1,69 @@
+{
+ "n_clips": 200,
+ "tag_counts": {
+  "accelerate": 13,
+  "cruise": 91,
+  "decelerate": 25,
+  "lane_change_left": 8,
+  "lane_change_right": 5,
+  "start": 5,
+  "stationary": 5,
+  "stop": 16,
+  "turn_left": 12,
+  "turn_right": 20
+ },
+ "chance_R@1_majority": 0.455,
+ "chance_R@1_random": 0.25035,
+ "retrieval": {
+  "meanpool_dinov2": {
+   "R@1": 0.265,
+   "macroR@1": 0.11518406593406594,
+   "R@5": 0.635,
+   "macroR@5": 0.34289468864468864
+  },
+  "meanpool_dinov3": {
+   "R@1": 0.25,
+   "macroR@1": 0.10310164835164834,
+   "R@5": 0.67,
+   "macroR@5": 0.40749267399267397
+  },
+  "delta_mean": {
+   "R@1": 0.445,
+   "macroR@1": 0.4063406593406594,
+   "R@5": 0.82,
+   "macroR@5": 0.6813461538461538
+  },
+  "delta_meanstd": {
+   "R@1": 0.47,
+   "macroR@1": 0.4171785714285714,
+   "R@5": 0.85,
+   "macroR@5": 0.7030494505494506
+  },
+  "ctrl_middle_frame_dinov2": {
+   "R@1": 0.205,
+   "macroR@1": 0.09607600732600732,
+   "R@5": 0.65,
+   "macroR@5": 0.39265476190476195
+  },
+  "ctrl_shuffled_delta_meanstd": {
+   "R@1": 0.275,
+   "macroR@1": 0.12630494505494508,
+   "R@5": 0.64,
+   "macroR@5": 0.3998434065934066
+  },
+  "ctrl_ego_speed_yawrate": {
+   "R@1": 0.715,
+   "macroR@1": 0.6027957875457874,
+   "R@5": 0.875,
+   "macroR@5": 0.772897435897436
+  }
+ },
+ "probe_R2": {
+  "delta_token->speed": 0.7774049315783301,
+  "delta_token->yaw_rate": 0.8710577895363465,
+  "dinov3_framediff->speed": -0.027196982158387728,
+  "dinov3_framediff->yaw_rate": -0.0022753701665871873
+ },
+ "deltatok_recon_cos": 0.9378135800361633,
+ "copy_last_cos": 0.910923182964325
+}
