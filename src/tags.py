@@ -17,6 +17,12 @@ def ego_profile(pose_df, ts):
     return dict(x=X, y=Y, yaw=YAW, speed=np.interp(tq, g, sp), yaw_rate=np.interp(tq, g, yr))
 # thresholds (documented in README)
 STOP_V, MOVE_V, TURN_DEG, LC_HEAD_DEG, LC_LAT_M, DV = 0.5, 3.0, 30.0, 10.0, 2.0, 3.0
+S_TEST, LC_YR = True, 0.03  # rad/s
+def s_shape(yr, side):
+    """Lane change = S-shaped yaw rate: a peak of the lane-change sign (>LC_YR) followed later by an opposite peak (>LC_YR).
+    Road curves give one-signed yaw rate and fail this test."""
+    yr = np.asarray(yr) * side; a = np.where(yr > LC_YR)[0]; b = np.where(yr < -LC_YR)[0]
+    return len(a) > 0 and len(b) > 0 and b.max() > a.min()
 def tag(p):
     v, yaw = p["speed"], p["yaw"]; dyaw = np.degrees(yaw[-1] - yaw[0])
     c, s = np.cos(yaw[0]), np.sin(yaw[0]); dx, dy = p["x"] - p["x"][0], p["y"] - p["y"][0]
@@ -29,7 +35,9 @@ def tag(p):
     # lane change: net heading small, but lateral offset relative to chord of a constant-curvature arc is large
     arc_lat = lon[-1] * np.tan(np.radians(dyaw) / 2)   # lateral expected from smooth arc with same net heading
     if abs(dyaw) < LC_HEAD_DEG and v.mean() > MOVE_V and abs(lat[-1] - arc_lat) > LC_LAT_M:
-        return "lane_change_left" if lat[-1] - arc_lat > 0 else "lane_change_right"
+        side = 1 if lat[-1] - arc_lat > 0 else -1
+        if not S_TEST or s_shape(p["yaw_rate"], side):
+            return "lane_change_left" if side > 0 else "lane_change_right"
     if v[-3:].mean() - v[:3].mean() > DV: return "accelerate"
     if v[:3].mean() - v[-3:].mean() > DV: return "decelerate"
     return "cruise"
@@ -48,5 +56,5 @@ def build(root, out):
 if __name__ == "__main__":
     import collections, sys
     R = os.path.join(os.path.dirname(__file__), "..")
-    c = build(f"{R}/data/av2", f"{R}/results/e_minus_1/clips_tags.json")
+    c = build(f"{R}/data/av2", f"{R}/results/exp0/clips_tags.json")  # E-1 used results/e_minus_1/clips_tags.json (no S-test)
     print(len(c), collections.Counter(x["tag"] for x in c))
