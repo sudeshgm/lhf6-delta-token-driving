@@ -1,0 +1,4 @@
+data/
+features/
+__pycache__/
+*.pt

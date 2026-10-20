@@ -1,0 +1,11 @@
+torch
+torchvision
+transformers
+opencv-python
+av2
+faiss-cpu
+scikit-learn
+numpy
+matplotlib
+pandas
+pyarrow
