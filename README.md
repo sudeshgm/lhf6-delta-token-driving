@@ -1,3 +1,5 @@
+> **STATUS: stopped: negative result (2026-10-21).** See [results/NEGATIVE_RESULT.md](results/NEGATIVE_RESULT.md).
+
 # LHF-6 — One token per frame: delta tokenisation as a driving scenario embedding
 
 **Status:** not started · **Priority:** medium · **Budget:** 4–6 weeks
